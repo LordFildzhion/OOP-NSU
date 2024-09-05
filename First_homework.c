@@ -15,7 +15,6 @@
 */
 
 
-
 #include <stdio.h>
 #include <string.h>
 #include <inttypes.h>
@@ -61,6 +60,12 @@ array_of_strings *create_array()
 
 void delete_array(array_of_strings *array)
 {
+    if (array == NULL)
+    {
+        printf("Can't find array for deleting\n");
+        return;
+    }
+
     for (uint64_t i = 0; i < array->buffer; i++)
         if (array->strings[i] != NULL)
         {
@@ -128,7 +133,6 @@ char *add_string(array_of_strings *array)
 
 void swap_strings(char **str1, char **str2)
 {
-    char *buffer = *str1;
     *str1 = *str2;
     *str2 = *str1;
 }
@@ -169,7 +173,6 @@ bool menu(array_of_strings *array)
         char *res = "Can't read command. Please try again                                 \n";
 
         printf("Please input number of the command:");
-        _flushall();
         if (scanf("%i", &command) <= 0)
         {
             printf("%s", res);
