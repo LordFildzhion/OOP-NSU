@@ -1,3 +1,21 @@
+/*
+*    Implementing a program that supports the following commands:
+*
+*    Add line:
+*    The user enters a string that is appended to the end of an array of strings.
+*
+*    Delete line:
+*    The user enters the index of the row to delete. The program frees up memory for this line and shifts all remaining lines one position to the left.
+*
+*    Display all lines:
+*    The program prints all the rows in the array.
+*
+*    Exit:
+*    The program terminates by terminating its work gracefully.
+*/
+
+
+
 #include <stdio.h>
 #include <string.h>
 #include <inttypes.h>
