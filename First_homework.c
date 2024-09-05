@@ -164,7 +164,7 @@ void print_str(array_of_strings *array)
 
 }
 
-bool menu(array_of_strings *array)
+void menu(array_of_strings *array)
 {
     printf("Hello, this is program can:\n1. Add string to array\n2. Delete string from array\n3. Print all array\nOr you can leave if input 4\n\n");
     while(true)
@@ -220,7 +220,7 @@ bool menu(array_of_strings *array)
         {
             printf("Goodbye!\n");
             delete_array(array);
-            return false;
+            return;
         }
 
         else
