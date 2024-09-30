@@ -22,15 +22,15 @@ public:
 
     T& at(size_t index) {
         if (index >= current_size) {
-            cerr << "Error: Invalid buffer subscript" << endl;
+            cerr << "Error: Invalid buffer index" << endl;
             exit(EXIT_FAILURE);
         }
         return arr[index];
     }
 
-    T& at(size_t index) const {
+    const T& at(size_t index) const {
         if (index >= current_size) {
-            cerr << "Error: Invalid buffer subscript" << endl;
+            cerr << "Error: Invalid buffer index" << endl;
             exit(EXIT_FAILURE);
         }
         return arr[index];
@@ -40,44 +40,42 @@ public:
 
     const T& operator[](size_t index) const { return arr[index]; }
 
-    void operator=(CircularBuffer arr_) {
-        cap = arr_.capacity();
-        current_size = arr_.size();
+    T& operator=(const CircularBuffer &new_buffer) {
+        if (this == new_buffer)
+        cap = new_buffer.capacity();
+        current_size = new_buffer.size();
+        delete[] arr;
         arr = new T[cap];
-    }
-
-    void operator=(initializer_list<T> init_list) {
-        cap = init_list.size();
-        arr = new T[cap];
-        current_size = cap;
-        copy(init_list.begin(), init_list.end(), &arr[0]);
+        for (size_t i = 0; i < cap; i++)
+        {
+            arr[i] = new_buffer[i];
+        }
     }
 
     bool operator==(CircularBuffer &b) {
-        if (current_size != b.size())
+        if (current_size != b.size()) {
             return false;
-        for (size_t i = 0; i < b.size(); i++)
-            if (b[i] != arr[i])
+        }
+
+        for (size_t i = 0; i < b.size(); i++) {
+            if (b[i] != arr[i]) {
                 return false;
+            }
+        }
         return true;
     }
 
     bool operator!=(CircularBuffer &b) {
-        if (current_size != b.size())
-            return true;
-        for (size_t i = 0; i < b.size(); i++)
-            if (b[i] != arr[i])
-                return true;
-        return false;
+        return !(this == b);
     }
 
     T& front() { return arr[0]; }
 
-    T& front() const {return arr[0]; }
+    const T& front() const {return arr[0]; }
 
     T& back() { return arr[current_size - 1]; }
 
-    T& back() const { return arr[current_size - 1]; }
+    const T& back() const { return arr[current_size - 1]; }
 
     T *begin() const { return &arr[0]; }
 
@@ -93,21 +91,26 @@ public:
 
     size_t reserve() const { return capacity - current_size; }
 
-    void set_capacity(const size_t new_capacity) {
+    void set_capacity(const size_t &new_capacity) {
         T *newarr = new T[new_capacity];
-        current_size = min(new_capacity, current_size);
         for (size_t i = 0; i < current_size; i++)
             newarr[i] = arr[i];
         
-        if (arr) delete[] arr;
+        delete[] arr;
         arr = newarr;
+        current_size = new_capacity;
         cap = new_capacity;
     }
 
-    void clear() { delete[] arr; arr = nullptr; cap = 0; current_size = 0; }
+    void clear() {
+        delete[] arr;
+        arr = nullptr;
+        cap = 0;
+        current_size = 0;
+    }
 
 private:
-    mutable size_t cap;
+    size_t cap;
     T *arr;
     size_t current_size;
     size_t first_element;
@@ -115,22 +118,9 @@ private:
 
 int main()
 {
-    CircularBuffer<int> a {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    CircularBuffer<int> a(10, 5);
     CircularBuffer <int> b = a;
-    b.clear();
-    cout << b.empty() << endl;
-    b.set_capacity(10);
-    for (int i = 0; i < 10; i++)
-        b[i] = i;
-    cout << a.size() << " " << b.size() << endl;
-
-    for (auto &x : a)
-        cout << x << " ";
-    cout << endl;
-
+    b.set_capacity(15);
     for (auto &x : b)
-        cout << x << " ";
-    cout << endl;
-    
-    cout << (b == a);
+        cout << " " << x;
 }
