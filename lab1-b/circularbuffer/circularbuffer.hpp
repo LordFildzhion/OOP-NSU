@@ -9,13 +9,22 @@ template <typename T>
 //requires std::default_initializable<T>
 class CircularBuffer{
 public:
-    CircularBuffer();
-
-    CircularBuffer(const CircularBuffer &a_);
-
-    CircularBuffer(const size_t cap_, T def = T());
-
-    ~CircularBuffer();
+    CircularBuffer(): cap {0}, arr{{}}, current_size{0}, first_element{0}
+    { }
+    
+    CircularBuffer(const CircularBuffer &a_): cap{a_.capacity()}, arr{new T[cap]}, current_size{a_.size()}, first_element{0} {
+        for (size_t it = 0; it < current_size; it++) {
+            arr[it] = a_[it];
+        }
+    }
+    
+    CircularBuffer(const size_t cap_, T def = T()):  cap{cap_}, arr{new T[cap_] }, current_size{cap_}, first_element{0} {
+        for (size_t it = 0; it < cap; it++) {
+            arr[it] = def;
+        }
+    }
+    
+    ~CircularBuffer() { delete[] arr; }
 
     T& at(size_t index);
 
