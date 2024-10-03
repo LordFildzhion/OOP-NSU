@@ -1,5 +1,4 @@
 #include "circularbuffer.hpp"
-#include <type_traits>
 
 template <typename T>
 T& CircularBuffer<T>::at(size_t index) {
@@ -20,10 +19,10 @@ const T& CircularBuffer<T>::at(size_t index) const {
 }
 
 template <typename T>
-T CircularBuffer<T>::operator[](size_t index) { return arr[index]; }
+T& CircularBuffer<T>::operator[](size_t index) { return arr[index]; }
 
 template <typename T>
-const T CircularBuffer<T>::operator[](size_t index) const { return arr[index]; }
+const T& CircularBuffer<T>::operator[](size_t index) const { return arr[index]; }
 
 template <typename T>
 CircularBuffer<T>& CircularBuffer<T>::operator=(CircularBuffer<T> &new_buffer) {
@@ -148,7 +147,7 @@ void CircularBuffer<T>::set_capacity(const size_t &new_capacity) {
 }
 
 template <typename T>
-void CircularBuffer<T>::resize(size_t new_size, const T& item = T()) {
+void CircularBuffer<T>::resize(size_t new_size, const T& item) {
     (*this).set_capacity(new_size);
 
     for (size_t i = current_size; i < new_size; i++) {
@@ -159,7 +158,7 @@ void CircularBuffer<T>::resize(size_t new_size, const T& item = T()) {
 }
 
 template <typename T>
-void CircularBuffer<T>::push_back(const T& new_element = T()) {
+void CircularBuffer<T>::push_back(const T& new_element) {
     if (current_size < cap) {
         arr[current_size++] = new_element;
     }
@@ -172,7 +171,7 @@ void CircularBuffer<T>::push_back(const T& new_element = T()) {
 }
 
 template <typename T>
-void CircularBuffer<T>::push_front(const T& new_element = T()) {
+void CircularBuffer<T>::push_front(const T& new_element) {
     if (first_element == 0)
     {
         first_element = cap;
@@ -184,16 +183,21 @@ void CircularBuffer<T>::push_front(const T& new_element = T()) {
     }
 }
 
-//Work in progress
 template <typename T>
 void CircularBuffer<T>::pop_back() {
-    if (first_element == 0) {
-        if (!(*this).empty()) {
-            arr[--current_size] = T();
-        }
-    } else {
-        
+    if (current_size == 0) {
+        return;
     }
+
+    if (first_element != 0) {
+        std::swap(arr[current_size - 1], arr[first_element - 1]);
+        for (size_t i = first_element - 1; i > 0; i--)
+        {
+            std::swap(arr[i], arr[i - 1]);
+        }
+    }
+
+    --current_size;
 }
 
 template <typename T>

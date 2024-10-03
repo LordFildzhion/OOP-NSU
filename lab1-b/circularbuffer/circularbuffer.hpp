@@ -1,12 +1,12 @@
-#pragma once
+
 
 #include <iostream>
 #include <algorithm>
 #include <concepts>
 #include <type_traits>
 
+#pragma once
 template <typename T>
-//requires std::default_initializable<T>
 class CircularBuffer{
 public:
     CircularBuffer(): cap {0}, arr{{}}, current_size{0}, first_element{0}
@@ -30,9 +30,9 @@ public:
 
     const T& at(size_t index) const;
 
-    T operator[](size_t index);
+    T& operator[](size_t index);
 
-    const T operator[](size_t index) const;
+    const T& operator[](size_t index) const;
 
     CircularBuffer& operator=(CircularBuffer &new_buffer);
 
@@ -68,11 +68,11 @@ public:
 
     void set_capacity(const size_t &new_capacity);
 
-    void resize(size_t new_size, const T& item = T());
+    void resize(size_t new_size, const T& item);
 
-    void push_back(const T& new_element = T());
+    void push_back(const T& new_element);
 
-    void push_front(const T& new_element = T());
+    void push_front(const T& new_element);
     //Work in progress
     void pop_back();
 
