@@ -1,1 +1,1 @@
-
+This program counts the words in the specified txt file and outputs the result to the specified csv file in the form of a table
