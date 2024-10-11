@@ -4,7 +4,7 @@
 
 int main(int argc, char* argv[]) {
     if (argc != 3) {
-        std::cout << (argc < 3 ? "More arguettes are needed"
+        std::cout << (argc < 3 ? "More argumettes are needed"
                                : "Fewer arguments are needed");
         return 0;
     }
