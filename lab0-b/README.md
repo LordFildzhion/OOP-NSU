@@ -9,6 +9,7 @@ This program counts the words in the specified txt file and outputs the result t
 
 `word_count.exe input.txt output.csv`
 
+
 ## Valgrind's memcheck result:
 
     ==2197== Memcheck, a memory error detector
