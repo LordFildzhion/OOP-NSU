@@ -15,13 +15,13 @@ class word_counter {
                 std::string output_filename = "out.csv") {
         in.open(input_filename);
         if (!in.is_open()) {
-            std::cerr << "Input file can't be open" << std::endl;
+            std::cerr << "ERROR: word_counter.hpp: Input file "<< input_filename << " can't be open" << std::endl;
             exit(EXIT_FAILURE);
         }
 
         out.open(output_filename);
         if (!out.is_open()) {
-            std::cerr << "Output file can't be open" << std::endl;
+            std::cerr << "ERROR: word_counter.hpp: Output file " << output_filename << " can't be open" << std::endl;
             exit(EXIT_FAILURE);
         }
     }
